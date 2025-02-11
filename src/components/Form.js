@@ -7,24 +7,26 @@ import Textarea from './ui/textarea';
 
 var base_url = 'https://deadlinetaskbot.productlove.ru/api/v1/tasks/client/newhardtask?token='
 
+var initialFormState = {
+    token: '',
+    title: '',
+    description: '',
+    tags: [],
+    budgetFrom: '',
+    budgetTo: '',
+    deadline: '',
+    reminds: '',
+    allAutoResponses: false,
+    rules: {
+        budget_from: '',
+        budget_to: '',
+        deadline_days: '',
+        qty_freelancers: ''
+    },
+};
+
 const Form = () => {
-    const [formState, setFormState] = useState({
-        token: '',
-        title: '',
-        description: '',
-        tags: [],
-        budgetFrom: '',
-        budgetTo: '',
-        deadline: '',
-        reminds: '',
-        allAutoResponses: false,
-        rules: {
-            budget_from: '',
-            budget_to: '',
-            deadline_days: '',
-            qty_freelancers: ''
-        },
-    });
+    const [formState, setFormState] = useState(initialFormState);
 
     useEffect(() => {
         const savedToken = localStorage.getItem('task_token');
@@ -49,9 +51,16 @@ const Form = () => {
 
         if (response.status === 200) {
             alert('Задача опубликована');
+            //Очистка формы
+            setFormState({
+                ...initialFormState,
+                token
+            })
         } else {
             alert('Ошибка при публикации задачи');
         }
+
+
     };
 
 
